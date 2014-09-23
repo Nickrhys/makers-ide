@@ -44,11 +44,23 @@ describe('editor page', function() {
     describe('saving changes', function() {
       before(function(done){
         browser.fill("textarea", 'Hello').
-        pressButton('Save', done)
-      })
+        pressButton('Save', done);
+      });
 
       it('writes the changes to the file', function(){
-        expect(fs.readFileSync('code/_test.txt', 'utf8')).to.eql('Hello')
+        expect(fs.readFileSync('code/_test.txt', 'utf8')).to.eql('Hello');
+      });
+    });
+  });
+
+  describe('exiting a file', function(){
+    it('allows you to go back to the home page', function() {
+      browser.visit('/edit?file=example.js').
+      then(function(){
+        return browser.clickLink('Exit')  
+      }).
+      then(function(){
+        expect(browser.location.pathname).to.eql('/')
       })
     });
   });

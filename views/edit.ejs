@@ -6,6 +6,8 @@
   <button type='submit' class='save'>Save</button>
 </form>
 
+<h4></h4>
+
 <script src='/socket.io/socket.io.js'></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/codemirror/4.5.0/codemirror.js'></script>
 <script src='http://codemirror.net/mode/javascript/javascript.js'></script>
@@ -25,13 +27,13 @@
 
   function updateFile(editor, change) {
     socket.emit('textUpdated', { name: $('form').data('filename'), content: editor.getValue(), author: uid });
-  }
+  };
 
   var socket = io();
 
   socket.on('userCountChanged', function(newUserCount){
     $('h3').text(newUserCount + ' users online')
-  })
+  });
 
   socket.on('fileChanged', function(file){
     if(uid == file.author) return;
@@ -39,5 +41,9 @@
     var cursorPos = editor.getCursor();
     editor.setValue(file.content);
     editor.setCursor(cursorPos);
-  })
+  });
+
+  $('.exit').on('click', function() {
+    window.location = '/';
+  });
 </script>
